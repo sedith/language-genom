@@ -1,0 +1,312 @@
+scopeName: 'source.gen'
+name: 'GenoM'
+fileTypes: [
+  'gen', 'idl'
+]
+
+# control keywords
+patterns: [
+    { include: '#doc-comment' },
+    { include: '#preprocessor' },
+
+    { include: '#line-comment' },
+    { include: '#block-comment' },
+
+    { include: '#base-type' },
+    { include: '#storage-modifier' },
+    { include: '#template' },
+    { include: '#numeric' },
+    { include: '#section' },
+    { include: '#struct' },
+    { include: '#header' },
+    { include: '#native' },
+    { include: '#specifier'},
+    { include: '#task' },
+    { include: '#service' },
+    { include: '#ids'},
+    { include: '#codel'},
+    { include: '#port'},
+    { include: '#variable'}
+
+]
+
+repository:
+    'line-comment': {
+        match: '//.*\\n'
+        name: 'comment.line.double-slash.gen'
+    }
+
+    'block-comment': {
+        begin: '(?!/\\*/)(?=/\\*)'
+        end: '(?<!/)\\*/'
+        name: 'comment.block.gen'
+    }
+
+    'doc-comment': {
+        begin: '(?=/\\*/)'
+        end: '(?<!/)\\*/'
+        name: 'comment.block.documentation.gen'
+    }
+
+    'preprocessor': {
+        begin: '(?=#)'
+        end: '(?<!\\\\)\\n'
+        name: 'meta.preprocessor.gen'
+        patterns: [
+            { include: '#keyword' },
+            { include: '#pragma' },
+            { include: '#include' }
+        ]
+    }
+
+    'keyword': {
+        match: '#\\s*(define|elif|else|endif|if|ifdef|ifndef|line|undef)'
+        name: 'keyword.control.gen'
+    }
+
+    'pragma': {
+        begin: '(#\\s*pragma)'
+        end: '(?<!\\\\)(?=\\n)'
+        name: 'meta.preprocessor.gen'
+        beginCaptures:
+            1: name: 'keyword.control.gen'
+        patterns: [
+            {
+                begin: '(require)'
+                end: '(?<!\\\\)(?=\\n)'
+                beginCaptures:
+                    1: name: 'keyword.control.gen'
+                patterns: [
+                    { include: '#string' },
+                    { include: '$self'}
+                ]
+            },
+            {
+                match: '(provides)'
+                captures:
+                    1: name: 'keyword.control.gen'
+                patterns: [
+                    { include: '$self'}
+                ]
+            },
+            {
+                begin: '(masquerade)'
+                end: '(?<!\\\\)(?=\\n)'
+                captures:
+                    1: name: 'keyword.control.gen'
+                patterns: [
+                    { include: '$self'}
+                ]
+            },
+        ]
+    }
+
+    'include': {
+        begin: '(#\\s*include)'
+        end: '(?<!\\\\)(?=\\n)'
+        name: 'meta.preprocessor.gen'
+        beginCaptures:
+            1: name: 'keyword.control.gen'
+        patterns: [
+            { include: '#string' },
+            { include: '$self'}
+        ]
+    }
+
+    'string': {
+        begin: '"'
+        end: '"'
+        name: 'string.quoted.gen'
+    }
+
+    'block':
+        begin: '{'
+        end: '}'
+        name: 'meta.block.gen'
+        patterns: [
+            { include: '$self' }
+        ]
+
+    'base-type': {
+        match: '(?:boolean|unsigned short|short|unsigned long|long|unsigned long long|long long|float|double|char|octet|any|array|string|sequence)'
+        name: 'storage.type.gen'
+        patterns: [
+            { include: '#template' }
+        ]
+    }
+
+    'port': {
+        match: '(port)\\s*((?:multiple)?\\s*in|out)\\s*([0-9a-zA-Z_:]*).*;'
+        captures:
+            1: name: 'keyword.control.gen'
+            2: name: 'keyword.other.gen'
+            3: name: 'storage.type.gen'
+    }
+
+
+    'variable': {
+        match: '([0-9a-zA-Z_:]*)\\s*([a-zA-Z_][0-9a-zA-Z_]*)(?:\\s=\\s*([0-9]*))?\\s*;'
+        captures:
+            1: name: 'storage.type.gen'
+            3: name: 'constant.numeric.gen'
+    }
+
+    'template': {
+        begin: '(<)\\s*([a-zA-Z_\\:]*)\\s*(?:,([0-9]*))?'
+        end: '(>)'
+        beginCaptures:
+            2: name: 'storage.type.gen'
+            3: name: 'constant.numeric.gen'
+    }
+
+    'storage-modifier': {
+        match: '(const)'
+        name: 'storage.modifier.gen'
+    }
+
+    'numeric': {
+        match: '(?<![\'\\.])(?:(?:(?:\\b\\d(?:[\\d\']*\\d)?\\.\\d(?:[\\d\']*\\d)?|\\B\\.\\d(?:[\\d\']*\\d)?)(?:[Ee][+-]?\\d(?:[\\d\']*\\d)?)?(?:[fFlL]|(?:i[fl]?|h|min|[mun]?s|_\\w*))?\\b|(?:\\b\\d(?:[\\d\']*\\d)?\\.)(?:\\B|(?:[fFlL]|(?:i[fl]?|h|min|[mun]?s|_\\w*))\\b|(?:[Ee][+-]?\\d(?:[\\d\']*\\d)?)(?:[fFlL]|(?:i[fl]?|h|min|[mun]?s|_\\w*))?\\b)|\\b\\d(?:[\\d\']*\\d)?(?:[Ee][+-]?\\d(?:[\\d\']*\\d)?)(?:[fFlL]|(?:i[fl]?|h|min|[mun]?s|_\\w*))?\\b)|\\b(?:(?:[1-9](?:[\\d\']*\\d)?|0(?:[0-7\']*[0-7])?|0[Xx][\\da-fA-F](?:[\\da-fA-F\']*[\\da-fA-F])?|0[Bb][01](?:[01\']*[01])?)(?:(?:l{1,2}|L{1,2})[uU]?|[uU](?:l{0,2}|L{0,2})|(?:i[fl]?|h|min|[mun]?s|_\\w*))?)\\b)(?!\\.)'
+        name: 'constant.numeric.gen'
+    }
+
+    'section': {
+        begin: '(component|module)'
+        name: 'meta.component-module-block.gen'
+        end: ';'
+        beginCaptures:
+            1: name: 'keyword.control.gen'
+        patterns: [
+            {
+                match: '([_a-zA-Z]\\w*)'
+                name: 'entity.name.section.gen'
+            },
+            { include: '#line-comment' },
+            { include: '#block-comment' },
+            { include: '#block' }
+        ]
+    }
+
+    'ids': {
+        begin: '(ids)'
+        end: ';'
+        name: 'meta.ids-block.gen'
+        beginCaptures:
+            1: name: 'keyword.control.gen'
+        patterns: [
+            { include: '#line-comment' },
+            { include: '#block-comment' },
+            { include: '#block' }
+        ]
+    }
+
+    'struct': {
+        begin: '(struct|union|exception|enum)'
+        end: ';'
+        name: 'meta.struct-block.gen'
+        beginCaptures:
+            1: name: 'keyword.control.gen'
+        patterns: [
+            {
+                match: '([_a-zA-Z]\\w*)'
+                name: 'entity.name.type.gen'
+            },
+            { include: '#line-comment' },
+            { include: '#block-comment' },
+            { include: '#block' }
+        ]
+    }
+
+    'native': {
+        begin: '(native|typedef)'
+        end: ';'
+        beginCaptures:
+            1: name: 'keyword.control.gen'
+        patterns: [
+            {
+                match: '([_a-zA-Z]\\w*)'
+                name: 'entity.name.type.gen'
+            }
+        ]
+    }
+
+    'task': {
+        begin: '(task)'
+        end: ';'
+        name: 'meta.task-block.gen'
+        beginCaptures:
+            1: name: 'keyword.control.gen'
+        patterns: [
+            {
+                match: '([_a-zA-Z]\\w*)'
+                name: 'entity.name.function.gen'
+            },
+            { include: '#self' },
+            { include: '#block' }
+        ]
+    }
+
+    'param': {
+        begin: '\\b(in|out|inout)\\b'
+        end: '(,|\\))'
+        beginCaptures:
+            1: name: 'entity.tag.gen'
+        patterns: [
+            { include: '#base-type' },
+            { include: '#string' },
+            { include: '#numeric' }
+        ]
+    }
+
+    'codel': {
+        begin: '(codel)\\s*<\\s*([a-z]*)\\s*>'
+        end: '(?<=;)\\n'
+        beginCaptures:
+            1: name: 'keyword.other.gen'
+            2: name: 'entity.tag.gen'
+        patterns: [
+            { include: '#param' },
+            { include: '#yield' }
+        ]
+    }
+
+    'yield': {
+        begin: '(yield)'
+        end: ';'
+        beginCaptures:
+            1: name: 'keyword.other.gen'
+        patterns: [
+            {
+                match: '[a-z:]'
+                name: 'entity.tag.gen'
+            }
+        ]
+    }
+
+    'specifier': {
+        match: '(task|throw|period)\\s*([a-zA-Z0-9_]*)\\s*(us|ms|s)?\\s*;'
+        captures:
+            1: name: 'keyword.other.gen'
+    }
+
+    'service': {
+        begin: '(function|activity|attribute)\\s*([a-zA-Z0-9_]*)\\s*'
+        end: ';'
+        name: 'meta.service-block.gen'
+        beginCaptures:
+            1: name: 'keyword.control.gen'
+            2: name: 'entity.name.function.gen'
+        patterns: [
+            { include: '#param' },
+            { include: '#block' }
+        ]
+    }
+
+    'header': {
+        begin : '(version|email|lang|require|codels-require)';
+        end: ';'
+        beginCaptures:
+            1: name: 'keyword.other.gen'
+        patterns: [
+            { include: '#string' }
+        ]
+    }

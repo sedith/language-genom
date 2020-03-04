@@ -1,0 +1,10 @@
+'.source.gen':
+    'editor':
+        'increaseIndentPattern': '\\{[^"\'}]*$'
+        'commentStart': '// '
+        'tabLength': 4
+'.source.idl':
+    'editor':
+        'increaseIndentPattern': '\\{[^"\'}]*$'
+        'commentStart': '// '
+        'tabLength': 4

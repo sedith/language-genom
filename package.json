@@ -1,0 +1,13 @@
+{
+  "name": "language-GenoM",
+  "version": "1.0.0",
+  "description": "Grammar package for GenoM language",
+  "keywords": [
+    "genom"
+  ],
+  "repository": "https://github.com/Sedith/language-genom",
+  "license": "Unlicense",
+  "engines": {
+    "atom": ">0.50.0"
+  }
+}

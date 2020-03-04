@@ -1,0 +1,63 @@
+'.source.gen':
+    'component...':
+        'prefix': 'component'
+        'body': 'component ${1:Name} {\n\tversion\t"$2:ver";\n\temail\t"$3;mail";\n\tlang\t"$4:c";\n\trequire\t"genom3 >= $5";\n\tcodels-require\t;\n\n${6: = default}\n};'
+    'exception...':
+        'prefix': 'exception'
+        'body': 'exception ${1:var} { string<128> what; };'
+    'module':
+        'prefix': 'module'
+        'body': 'module ${1:Name} {\n\t${2:int member};\n};'
+    'struct':
+        'prefix': 'struct'
+        'body': 'struct ${1:Name} {\n\t${2:int member};\n};'
+    'enum':
+        'prefix': 'enum'
+        'body': 'enum ${1:Name} {\n\t${2:int member};\n};'
+    'typedef':
+        'prefix': 'typedef'
+        'body': 'typedef ${1:type} ${name}'
+    'native':
+        'prefix': 'native'
+        'body': 'native ${1:name};'
+    'ids':
+        'prefix': 'ids'
+        'body': 'ids ${1:Name} {\n\t${\t$2};\n};'
+    'attribute':
+        'prefix': 'attribute'
+        'body': 'attribute ${1:Name}(${1:type} ${2:var} = ${3:default} : "${4:doc}");'
+    'port':
+        'prefix': 'port'
+        'body': 'port\t${1:type}\t${1:var}\t${4:name};'
+    'const':
+        'prefix': 'const'
+        'body': 'const ${1:type} ${2:name} = ${3:val};'
+    'activity':
+        'prefix': 'activity'
+        'body': 'activity ${1:name}($2) {\n\ttask $2;\n\n\tcodel<$3> $4($5)\n\t\tyield $6;\n};'
+    'function':
+        'prefix': 'function'
+        'body': 'function ${1:name}($2) {\n\tcodel $3($4);\n};'
+    'task':
+        'prefix': 'task'
+        'body': 'task ${1:name} {\n\tperiod $2 ms;\n\n\tcodel<$3> $4($5)\n\t\tyield $6;\n};'
+
+'.source.idl':
+    'exception...':
+        'prefix': 'exception'
+        'body': 'exception ${1:var} { string<128> what; };'
+    'module':
+        'prefix': 'module'
+        'body': 'module ${1:Name} {\n\t${2:int member};\n};'
+    'struct':
+        'prefix': 'struct'
+        'body': 'struct ${1:Name} {\n\t${2:int member};\n};'
+    'enum':
+        'prefix': 'enum'
+        'body': 'enum ${1:Name} {\n\t${2:int member};\n};'
+    'typedef':
+        'prefix': 'typedef'
+        'body': 'typedef ${1:type} ${name}'
+    'native':
+        'prefix': 'native'
+        'body': 'native ${1:name};'
