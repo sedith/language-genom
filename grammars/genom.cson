@@ -265,7 +265,7 @@ repository:
                 end: '"'
             },
             {
-                match: '([a-z-A-Z0-9:_]*)\\s*([a-z-A-Z0-9_]*)\\s*='
+                match: '([a-z-A-Z0-9\\.:_]*)\\s*([a-z-A-Z0-9_]*)\\s*='
                 captures:
                     1: name: 'storage.type.gen'
             }
