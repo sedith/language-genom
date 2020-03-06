@@ -20,13 +20,15 @@ patterns: [
     { include: '#struct' },
     { include: '#header' },
     { include: '#native' },
-    { include: '#specifier'},
+    { include: '#specifier' },
+    { include: '#specifier-doc' },
+    { include: '#specifier-validate' },
     { include: '#task' },
     { include: '#service' },
-    { include: '#ids'},
-    { include: '#codel'},
-    { include: '#port'},
-    { include: '#variable'}
+    { include: '#ids' },
+    { include: '#codel' },
+    { include: '#port' },
+    { include: '#variable' }
 
 ]
 
@@ -246,11 +248,27 @@ repository:
     }
 
     'param': {
+        begin: '((?:port|ids|local)?\\s*\\b(?:in|out|inout))\\b'
+        end: '(,|\\))'
+        beginCaptures:
+            1: name: 'entity.tag.gen'
+    }
+
+    'param-service': {
         begin: '\\b(in|out|inout)\\b'
         end: '(,|\\))'
         beginCaptures:
             1: name: 'entity.tag.gen'
         patterns: [
+            {
+                begin: ':\\s*"'
+                end: '"'
+            },
+            {
+                match: '([a-z-A-Z0-9:_]*)\\s*([a-z-A-Z0-9_]*)\\s*='
+                captures:
+                    1: name: 'storage.type.gen'
+            }
             { include: '#base-type' },
             { include: '#string' },
             { include: '#numeric' }
@@ -258,7 +276,7 @@ repository:
     }
 
     'codel': {
-        begin: '(codel)\\s*<\\s*([a-z]*)\\s*>'
+        begin: '(codel)\\s*(?:<\\s*([a-z]*)\\s*>)?'
         end: '(?<=;)\\n'
         beginCaptures:
             1: name: 'keyword.other.gen'
@@ -283,9 +301,25 @@ repository:
     }
 
     'specifier': {
-        match: '(task|throw|period)\\s*([a-zA-Z0-9_]*)\\s*(us|ms|s)?\\s*;'
+        match: '(task|throw|period|interrupt)\\s*([a-zA-Z0-9_"]*)\\s*(us|ms|s)?\\s*;'
         captures:
             1: name: 'keyword.other.gen'
+    }
+
+    'specifier-doc': {
+        match: '(doc)\\s*"(.*)"\\s*;'
+        captures:
+            1: name: 'keyword.other.gen'
+    }
+
+    'specifier-validate': {
+        begin: '(validate)'
+        end: ';'
+        beginCaptures:
+            1: name: 'keyword.other.gen'
+        patterns: [
+            { include: '#param' }
+        ]
     }
 
     'service': {
@@ -296,8 +330,8 @@ repository:
             1: name: 'keyword.control.gen'
             2: name: 'entity.name.function.gen'
         patterns: [
-            { include: '#param' },
-            { include: '#block' }
+            { include: '#param-service' },
+            { include: '#block' },
         ]
     }
 
