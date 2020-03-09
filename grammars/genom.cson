@@ -62,7 +62,7 @@ repository:
     }
 
     'keyword': {
-        match: '#\\s*(define|elif|else|endif|if|ifdef|ifndef|line|undef)'
+        match: '\\b#\\s*(define|elif|else|endif|if|ifdef|ifndef|line|undef)\\b'
         name: 'keyword.control.gen'
     }
 
@@ -172,7 +172,7 @@ repository:
     }
 
     'section': {
-        begin: '(component|module)'
+        begin: '\\b(component|module|interface)\\b'
         name: 'meta.component-module-block.gen'
         end: ';'
         beginCaptures:
@@ -189,7 +189,7 @@ repository:
     }
 
     'ids': {
-        begin: '(ids)'
+        begin: '\\b(ids)\\b'
         end: ';'
         name: 'meta.ids-block.gen'
         beginCaptures:
@@ -202,7 +202,7 @@ repository:
     }
 
     'struct': {
-        begin: '(struct|union|exception|enum)'
+        begin: '\\b(struct|union|exception|enum)\\b'
         end: ';'
         name: 'meta.struct-block.gen'
         beginCaptures:
@@ -219,7 +219,7 @@ repository:
     }
 
     'native': {
-        begin: '(native|typedef)'
+        begin: '\\b(native|typedef)\\b'
         end: ';'
         beginCaptures:
             1: name: 'keyword.control.gen'
@@ -232,7 +232,7 @@ repository:
     }
 
     'task': {
-        begin: '(task)'
+        begin: '\\b(task)\\b'
         end: ';'
         name: 'meta.task-block.gen'
         beginCaptures:
@@ -248,7 +248,7 @@ repository:
     }
 
     'param': {
-        begin: '((?:port|ids|local)?\\s*\\b(?:in|out|inout))\\b'
+        begin: '\\b((?:(?:port|ids|local)\\s*)?(?:in|out|inout))\\b'
         end: '(,|\\))'
         beginCaptures:
             1: name: 'entity.tag.gen'
@@ -276,7 +276,7 @@ repository:
     }
 
     'codel': {
-        begin: '(codel)\\s*(?:<\\s*([a-z]*)\\s*>)?'
+        begin: '\\b(codel)\\b\\s*(?:<\\s*([a-z]*)\\s*>)?'
         end: '(?<=;)\\n'
         beginCaptures:
             1: name: 'keyword.other.gen'
@@ -288,7 +288,7 @@ repository:
     }
 
     'yield': {
-        begin: '(yield)'
+        begin: '\\b(yield\\b)'
         end: ';'
         beginCaptures:
             1: name: 'keyword.other.gen'
@@ -301,19 +301,19 @@ repository:
     }
 
     'specifier': {
-        match: '(task|throw|period|interrupt)\\s*([a-zA-Z0-9_"]*)\\s*(us|ms|s)?\\s*;'
+        match: '\\b(task|throw|period|interrupt)\\s*([a-zA-Z0-9_"]*)\\s*(us|ms|s)?\\s*;'
         captures:
             1: name: 'keyword.other.gen'
     }
 
     'specifier-doc': {
-        match: '(doc)\\s*"(.*)"\\s*;'
+        match: '\\b(doc)\\s*"(.*)"\\s*;'
         captures:
             1: name: 'keyword.other.gen'
     }
 
     'specifier-validate': {
-        begin: '(validate)'
+        begin: '\\b(validate)\\b'
         end: ';'
         beginCaptures:
             1: name: 'keyword.other.gen'
@@ -323,7 +323,7 @@ repository:
     }
 
     'service': {
-        begin: '(function|activity|attribute)\\s*([a-zA-Z0-9_]*)\\s*'
+        begin: '\\b(function|activity|attribute)\\s*([a-zA-Z0-9_]*)\\s*'
         end: ';'
         name: 'meta.service-block.gen'
         beginCaptures:
@@ -336,7 +336,7 @@ repository:
     }
 
     'header': {
-        begin : '(version|email|lang|require|codels-require)';
+        begin : '\\b(version|email|lang|require|codels-require|provides|uses)\\b';
         end: ';'
         beginCaptures:
             1: name: 'keyword.other.gen'
