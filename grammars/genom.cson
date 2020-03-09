@@ -15,13 +15,16 @@ patterns: [
     { include: '#base-type' },
     { include: '#storage-modifier' },
     { include: '#optional' },
+    { include: '#template' },
     { include: '#numeric' },
     { include: '#section' },
     { include: '#struct' },
     { include: '#header' },
     { include: '#native' },
+    { include: '#local' },
     { include: '#specifier' },
     { include: '#specifier-doc' },
+    { include: '#specifier-period' },
     { include: '#specifier-validate' },
     { include: '#task' },
     { include: '#service' },
@@ -130,11 +133,8 @@ repository:
         ]
 
     'base-type': {
-        match: '(?:boolean|unsigned short|short|unsigned long|long|unsigned long long|long long|float|double|char|octet|any|array|string|sequence)'
+        match: '\\b(boolean|unsigned short|short|unsigned long|long|unsigned long long|long long|float|double|char|octet|any|array|string|sequence)\\b'
         name: 'storage.type.gen'
-        patterns: [
-            { include: '#template' }
-        ]
     }
 
     'port': {
@@ -164,7 +164,7 @@ repository:
     }
 
     'template': {
-        begin: '(<)\\s*([a-zA-Z0-9_\\:]*)\\s*(?:,([0-9]*))?'
+        begin: '(<)\\s*([a-zA-Z][a-zA-Z0-9_\\:]*)?\\s*,?\\s*([0-9]*)?'
         end: '(>)'
         beginCaptures:
             2: name: 'storage.type.gen'
@@ -225,6 +225,16 @@ repository:
             { include: '#line-comment' },
             { include: '#block-comment' },
             { include: '#block' }
+        ]
+    }
+
+    'local': {
+        begin: '\\b(local)\\b'
+        end: ';'
+        beginCaptures:
+            1: name: 'keyword.other.gen'
+        patterns: [
+            { include: '#base-type' }
         ]
     }
 
@@ -311,14 +321,22 @@ repository:
     }
 
     'specifier': {
-        match: '\\b(task|throw|period|interrupt)\\s*([a-zA-Z0-9_"]*)\\s*(us|ms|s)?\\s*;'
+        match: '\\b(task|throw|interrupt)\\s*[a-zA-Z_, ]*;'
         captures:
             1: name: 'keyword.other.gen'
     }
 
     'specifier-doc': {
-        match: '\\b(doc)\\s*"(.*)"\\s*;'
-        captures:
+        begin: '\\b(doc)\\b'
+        end: ';'
+        beginCaptures:
+            1: name: 'keyword.other.gen'
+    }
+
+    'specifier-period': {
+        match: '\\b(period)\\b'
+        end: ';'
+        beginCaptures:
             1: name: 'keyword.other.gen'
     }
 
