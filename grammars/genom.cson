@@ -14,7 +14,7 @@ patterns: [
 
     { include: '#base-type' },
     { include: '#storage-modifier' },
-    { include: '#template' },
+    { include: '#optional' },
     { include: '#numeric' },
     { include: '#section' },
     { include: '#struct' },
@@ -62,7 +62,7 @@ repository:
     }
 
     'keyword': {
-        match: '\\b#\\s*(define|elif|else|endif|if|ifdef|ifndef|line|undef)\\b'
+        match: '#\\s*(define|elif|else|endif|if|ifdef|ifndef|line|undef)\\b'
         name: 'keyword.control.gen'
     }
 
@@ -153,8 +153,18 @@ repository:
             3: name: 'constant.numeric.gen'
     }
 
+    'optional': {
+        begin: '\\b(optional)'
+        end: ';'
+        beginCaptures:
+            1: name: 'keyword.other.gen'
+        patterns: [
+            { include: '#template' }
+        ]
+    }
+
     'template': {
-        begin: '(<)\\s*([a-zA-Z_\\:]*)\\s*(?:,([0-9]*))?'
+        begin: '(<)\\s*([a-zA-Z0-9_\\:]*)\\s*(?:,([0-9]*))?'
         end: '(>)'
         beginCaptures:
             2: name: 'storage.type.gen'
