@@ -334,7 +334,7 @@ repository:
     }
 
     'specifier-period': {
-        match: '\\b(period)\\b'
+        begin: '\\b(period)\\b'
         end: ';'
         beginCaptures:
             1: name: 'keyword.other.gen'
