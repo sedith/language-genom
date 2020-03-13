@@ -303,7 +303,7 @@ repository:
     }
 
     'storage-modifier': {
-        match: '(const)'
+        match: '\\b(const)\\b'
         name: 'storage.modifier.gen'
     }
 
