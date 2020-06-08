@@ -32,7 +32,6 @@ patterns: [
     { include: '#codel' },
     { include: '#port' },
     { include: '#variable' }
-
 ]
 
 repository:
