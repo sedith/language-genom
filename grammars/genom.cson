@@ -50,7 +50,7 @@ repository:
     }
 
     'codel': {
-        begin: '\\b(codel)\\b\\s*(?:<\\s*([a-z]*)\\s*>)?'
+        begin: '\\b((?:async\\s*)?codel)\\b\\s*(?:<\\s*([a-z]*)\\s*>)?'
         end: '(?<=;)\\n'
         beginCaptures:
             1: name: 'keyword.other.gen'
@@ -175,7 +175,7 @@ repository:
                 end: '"'
             },
             {
-                match: '([a-z-A-Z0-9\\.:_]*)\\s*([a-z-A-Z0-9_]*)\\s*='
+                match: '([a-z-A-Z0-9\\.:_]*)\\s*([a-z-A-Z0-9_.]*)\\s*='
                 captures:
                     1: name: 'storage.type.gen'
             }
