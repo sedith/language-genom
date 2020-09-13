@@ -138,7 +138,9 @@ repository:
             {
                 match: '([_a-zA-Z]\\w*)'
                 name: 'entity.name.type.gen'
-            }
+            },
+            { include: '#base-type' },
+            { include: '#template' }
         ]
     }
 
