@@ -188,7 +188,7 @@ repository:
     }
 
     'port': {
-        match: '(port)\\s+((?:multiple)?\\s*(in|out))\\s+([0-9a-zA-Z_:]*).*;'
+        match: '(port)\\s+((?:multiple)?\\s*(?:in|out))\\s+([0-9a-zA-Z_:]*).*;'
         captures:
             1: name: 'keyword.control.gen'
             2: name: 'keyword.other.gen'
