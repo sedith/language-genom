@@ -188,11 +188,15 @@ repository:
     }
 
     'port': {
-        match: '(port)\\s+((?:multiple)?\\s*(?:in|out))\\s+([0-9a-zA-Z_:]*).*;'
-        captures:
+        begin: '\\b(port)\\s+((?:multiple)?\\s*(?:in|out))\\s+([0-9a-zA-Z_:]*).*\\b'
+        end: ';'
+        beginCaptures:
             1: name: 'keyword.control.gen'
             2: name: 'keyword.other.gen'
             3: name: 'storage.type.gen'
+        patterns: [
+            { include: '#block' }
+        ]
     }
 
     'pragma': {
