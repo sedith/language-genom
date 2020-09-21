@@ -50,12 +50,21 @@ repository:
     }
 
     'codel': {
-        begin: '\\b((?:async\\s*)?codel)\\b\\s*(?:<\\s*([a-z]*)\\s*>)?'
-        end: '(?<=;)\\n'
+        begin: '\\b((?:async\\s*)?codel)\\b\\s*'
+        end: '(?<=;)\\s*\\n'
         beginCaptures:
             1: name: 'keyword.other.gen'
-            2: name: 'entity.tag.gen'
         patterns: [
+            {
+                begin: '(<)'
+                end: '(>)'
+                patterns: [
+                    {
+                        match: '\\b(\\w+)\\b'
+                        name: 'entity.tag.gen'
+                    }
+                ]
+            },
             { include: '#param' },
             { include: '#yield' }
         ]
@@ -278,7 +287,7 @@ repository:
     }
 
     'specifier': {
-        match: '\\b(task|throw|interrupt)\\s*[a-zA-Z_, ]*;'
+        match: '\\b(task|throw|interrupt|after)\\s*[a-zA-Z_, ]*;'
         captures:
             1: name: 'keyword.other.gen'
     }
@@ -367,13 +376,13 @@ repository:
     }
 
     'yield': {
-        begin: '\\b(yield\\b)'
+        begin: '\\b(yield)\\b'
         end: ';'
         beginCaptures:
             1: name: 'keyword.other.gen'
         patterns: [
             {
-                match: '[a-z:]'
+                match: '(\\b(pause::)?[\\w]+\\b)(?=\\s*(,|;))'
                 name: 'entity.tag.gen'
             }
         ]
