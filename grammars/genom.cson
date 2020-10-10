@@ -186,10 +186,19 @@ repository:
                 end: '"'
             },
             {
+                begin: '{'
+                end: '}'
+                patterns: [
+                    { include: '#base-type' },
+                    { include: '#string' },
+                    { include: '#numeric' }
+                ]
+            },
+            {
                 match: '([a-z-A-Z0-9\\.:_]*)\\s*([a-z-A-Z0-9_.]*)\\s*='
                 captures:
                     1: name: 'storage.type.gen'
-            }
+            },
             { include: '#base-type' },
             { include: '#string' },
             { include: '#numeric' }
