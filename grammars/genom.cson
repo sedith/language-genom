@@ -296,7 +296,7 @@ repository:
     }
 
     'specifier': {
-        match: '\\b(task|throw|interrupt|after)\\s*[a-zA-Z_, ]*;'
+        match: '\\b(task|throw|interrupts?|after)\\s*[a-zA-Z_, ]*;'
         captures:
             1: name: 'keyword.other.gen'
     }
