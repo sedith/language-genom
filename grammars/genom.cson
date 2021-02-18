@@ -31,7 +31,7 @@ patterns: [
     { include: '#ids' },
     { include: '#codel' },
     { include: '#port' },
-    { include: '#variable' }
+    { include: '#variable' },
 ]
 
 repository:
@@ -128,14 +128,9 @@ repository:
     }
 
     'local': {
-        begin: '\\b(local)\\b'
-        end: ';'
-        beginCaptures:
+        match: '\\b(local)\\b'
+        captures:
             1: name: 'keyword.other.gen'
-        patterns: [
-            { include: '#base-type' },
-            { include: '#template' }
-        ]
     }
 
     'native': {
@@ -381,7 +376,6 @@ repository:
         match: '([0-9a-zA-Z_:]*)\\s*([a-zA-Z_][0-9a-zA-Z_]*)(?:\\s=\\s*([0-9]*))?\\s*;'
         captures:
             1: name: 'storage.type.gen'
-            3: name: 'constant.numeric.gen'
     }
 
     'yield': {
