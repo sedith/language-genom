@@ -93,7 +93,9 @@ repository:
         beginCaptures:
             1: name: 'keyword.other.gen'
         patterns: [
-            { include: '#string' }
+            { include: '#string' },
+            { include: '#comment-line' },
+            { include: '#comment-block' }
         ]
     }
 
